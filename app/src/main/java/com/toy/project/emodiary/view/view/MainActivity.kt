@@ -1,4 +1,4 @@
-package com.toy.project.emodiary.view
+package com.toy.project.emodiary.view.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
