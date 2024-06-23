@@ -51,11 +51,14 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.livedata)
 
     // google
     implementation(libs.material)
 
     // hilt
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 }
