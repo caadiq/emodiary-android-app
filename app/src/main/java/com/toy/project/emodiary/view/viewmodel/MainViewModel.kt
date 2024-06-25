@@ -13,7 +13,7 @@ enum class MainFragmentType(val tag: String) {
 
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
-    private val _currentFragmentType = MutableLiveData<MainFragmentType>(MainFragmentType.HOME)
+    private val _currentFragmentType = MutableLiveData(MainFragmentType.HOME)
     val currentFragmentType: LiveData<MainFragmentType> = _currentFragmentType
 
     fun setCurrentFragment(item: Int): Boolean {
