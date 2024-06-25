@@ -12,7 +12,7 @@
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="elevationOverlayEnabled">false</item>
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="homeAsUpIndicator">@drawable/icon_arrow_left</item>
     </style>
 
