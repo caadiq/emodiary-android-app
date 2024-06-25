@@ -32,6 +32,8 @@ class SignInActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding.btnSignIn.setOnClickListener {
+            dataStoreViewModel.setSaveId(binding.chkSaveId.isChecked)
+
             if (binding.chkSaveId.isChecked) {
                 dataStoreViewModel.setEmail(binding.editEmail.text.toString())
             } else {

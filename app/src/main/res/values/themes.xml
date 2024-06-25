@@ -8,7 +8,7 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
 
-        <item name="android:colorBackground">@color/white</item>
+        <item name="android:colorBackground">@color/lighter_gray</item>
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="elevationOverlayEnabled">false</item>
@@ -17,4 +17,8 @@
     </style>
 
     <style name="Theme.EmoDiary" parent="Base.Theme.EmoDiary" />
+
+    <style name="Style.BottomNavigationView.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
 </resources>
