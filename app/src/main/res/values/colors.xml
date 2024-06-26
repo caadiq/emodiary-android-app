@@ -16,4 +16,9 @@
     <color name="darker_gray">#212121</color>
     <color name="light_blue_gray">#F0F2F5</color>
     <color name="blue_gray">#637587</color>
+
+    <color name="blue">#6491EC</color>
+    <color name="light_blue">#BCD3FD</color>
+    <color name="blue2">#749EF0</color>
+    <color name="light_blue2">#D2E3FE</color>
 </resources>
