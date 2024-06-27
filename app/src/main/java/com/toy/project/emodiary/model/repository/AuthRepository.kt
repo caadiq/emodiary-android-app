@@ -5,6 +5,7 @@ import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.SignInDto
 import com.toy.project.emodiary.model.dto.SignInSuccessDto
 import com.toy.project.emodiary.model.dto.SignUpDto
+import com.toy.project.emodiary.model.dto.UserInfoDto
 import com.toy.project.emodiary.model.utils.NetworkUtil.handleResponse
 import com.toy.project.emodiary.model.utils.ResultUtil
 import retrofit2.Retrofit
@@ -24,5 +25,9 @@ class AuthRepository @Inject constructor(
 
     fun signIn(dto: SignInDto, callback: (ResultUtil<SignInSuccessDto>) -> Unit) {
         handleResponse(authApi.signIn(dto), callback)
+    }
+
+    fun getUserInfo(callback: (ResultUtil<UserInfoDto>) -> Unit) {
+        handleResponse(authApiAuth.userInfo(), callback)
     }
 }

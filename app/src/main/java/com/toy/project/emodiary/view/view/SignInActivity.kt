@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.toy.project.emodiary.databinding.ActivitySigninBinding
+import com.toy.project.emodiary.model.data.UserData
 import com.toy.project.emodiary.model.dto.SignInDto
 import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
@@ -77,6 +78,11 @@ class SignInActivity : AppCompatActivity() {
             email.observe(this@SignInActivity) { email ->
                 email?.let { binding.editEmail.setText(it) }
             }
+
+            accessToken.observe(this@SignInActivity) { accessToken ->
+                if (accessToken != null)
+                    getUserInfo()
+            }
         }
 
         authViewModel.apply {
@@ -97,10 +103,19 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
 
+            userInfo.observe(this@SignInActivity) {
+                UserData.setUserData(it.email, it.nickname)
+
+                progressDialog.dismiss()
+
+                startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
+            }
+
             errorMessage.observe(this@SignInActivity) { event ->
                 progressDialog.dismiss()
                 event.getContentIfNotHandled()?.let { message ->
-                    Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
+//                    if (!message.lowercase().contains("jwt"))
+                        Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -112,6 +127,11 @@ class SignInActivity : AppCompatActivity() {
 
     private fun signIn(email: String, password: String) {
         authViewModel.signIn(SignInDto(email, password))
+        progressDialog.show(supportFragmentManager, "ProgressDialog")
+    }
+
+    private fun getUserInfo() {
+        authViewModel.getUserInfo()
         progressDialog.show(supportFragmentManager, "ProgressDialog")
     }
 }

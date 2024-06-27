@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.toy.project.emodiary.databinding.FragmentHomeBinding
+import com.toy.project.emodiary.model.data.UserData
 import com.toy.project.emodiary.view.adapter.Diary
 import com.toy.project.emodiary.view.adapter.HomeAdapter
 import com.toy.project.emodiary.view.adapter.HomeItem
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() {
 
         val items = mutableListOf<HomeItem>()
 
-        items.add(HomeItem.HomeHeader("오늘 하루는 어떠셨나요?", "닉네임"))
+        items.add(HomeItem.HomeHeader("오늘 하루는 어떠셨나요?", UserData.nickname ?: ""))
 
         items.add(HomeItem.HomeYear(listOf(
             Year(2024, 300, true),
@@ -69,7 +70,6 @@ class HomeFragment : Fragment() {
                 is HomeItem.HomeYear -> {
 
                 }
-
                 is HomeItem.HomeMonth -> {
 
                 }

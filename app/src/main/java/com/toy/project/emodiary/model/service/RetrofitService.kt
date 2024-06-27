@@ -2,6 +2,7 @@ package com.toy.project.emodiary.model.service
 
 import com.toy.project.emodiary.BuildConfig
 import com.toy.project.emodiary.model.repository.DataStoreRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -41,7 +42,7 @@ object RetrofitService {
 class RequestInterceptor(private val dataStoreRepository: DataStoreRepository) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking {
-            dataStoreRepository.getAccessToken()
+            dataStoreRepository.getAccessToken().first()
         }
 
         // 헤더에 Access Token 추가

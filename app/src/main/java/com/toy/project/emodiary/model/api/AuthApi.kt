@@ -4,8 +4,10 @@ import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.SignInDto
 import com.toy.project.emodiary.model.dto.SignInSuccessDto
 import com.toy.project.emodiary.model.dto.SignUpDto
+import com.toy.project.emodiary.model.dto.UserInfoDto
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -16,4 +18,8 @@ interface AuthApi {
     // 로그인
     @POST("/auth/signin")
     fun signIn(@Body signInDto: SignInDto): Call<SignInSuccessDto>
+
+    // 로그인 유저 정보
+    @GET("/auth/users")
+    fun userInfo(): Call<UserInfoDto>
 }

@@ -7,6 +7,7 @@ import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.SignInDto
 import com.toy.project.emodiary.model.dto.SignInSuccessDto
 import com.toy.project.emodiary.model.dto.SignUpDto
+import com.toy.project.emodiary.model.dto.UserInfoDto
 import com.toy.project.emodiary.model.repository.AuthRepository
 import com.toy.project.emodiary.model.utils.Event
 import com.toy.project.emodiary.model.utils.NetworkUtil.handleResult
@@ -25,6 +26,9 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
     private val _signUp = MutableLiveData<ResultUtil<MessageDto>>()
     val signUp: LiveData<ResultUtil<MessageDto>> = _signUp
 
+    private val _userInfo = MutableLiveData<UserInfoDto>()
+    val userInfo: LiveData<UserInfoDto> = _userInfo
+
     fun signIn(dto: SignInDto) {
         repository.signIn(dto) { result ->
             handleResult(result, _signIn, _errorMessage)
@@ -34,6 +38,12 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
     fun signUp(dto: SignUpDto) {
         repository.signUp(dto) { result ->
             _signUp.postValue(result)
+        }
+    }
+
+    fun getUserInfo() {
+        repository.getUserInfo { result ->
+            handleResult(result, _userInfo, _errorMessage)
         }
     }
 }

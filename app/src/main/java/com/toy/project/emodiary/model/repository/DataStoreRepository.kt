@@ -1,6 +1,7 @@
 package com.toy.project.emodiary.model.repository
 
 import com.toy.project.emodiary.model.data.DataStoreModule
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DataStoreRepository @Inject constructor(private val dataStore: DataStoreModule) {
@@ -24,7 +25,9 @@ class DataStoreRepository @Inject constructor(private val dataStore: DataStoreMo
         dataStore.saveAccessToken(accessToken)
     }
 
-    fun getAccessToken() = dataStore.getAccessToken()
+    fun getAccessToken(): Flow<String?> {
+        return dataStore.getAccessToken()
+    }
 
     suspend fun deleteAccessToken() {
         dataStore.deleteAccessToken()
@@ -34,7 +37,9 @@ class DataStoreRepository @Inject constructor(private val dataStore: DataStoreMo
         dataStore.saveRefreshToken(refreshToken)
     }
 
-    fun getRefreshToken() = dataStore.getRefreshToken()
+    fun getRefreshToken(): Flow<String?> {
+        return dataStore.getRefreshToken()
+    }
 
     suspend fun deleteRefreshToken() {
         dataStore.deleteRefreshToken()
