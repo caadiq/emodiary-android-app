@@ -19,4 +19,24 @@ class DataStoreRepository @Inject constructor(private val dataStore: DataStoreMo
     suspend fun deleteEmail() {
         dataStore.deleteEmail()
     }
+
+    suspend fun saveAccessToken(accessToken: String) {
+        dataStore.saveAccessToken(accessToken)
+    }
+
+    fun getAccessToken() = dataStore.getAccessToken()
+
+    suspend fun deleteAccessToken() {
+        dataStore.deleteAccessToken()
+    }
+
+    suspend fun saveRefreshToken(refreshToken: String) {
+        dataStore.saveRefreshToken(refreshToken)
+    }
+
+    fun getRefreshToken() = dataStore.getRefreshToken()
+
+    suspend fun deleteRefreshToken() {
+        dataStore.deleteRefreshToken()
+    }
 }

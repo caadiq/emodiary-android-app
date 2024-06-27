@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutParent"
-    android:layout_width="wrap_content"
+    android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="16dp"
@@ -22,6 +22,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="6월" />
+        tools:text="12월" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

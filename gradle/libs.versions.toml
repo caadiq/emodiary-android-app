@@ -6,8 +6,8 @@ ksp = "1.9.24-1.0.20"
 
 # 라이브러리
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
 constraintlayout = "2.1.4"
@@ -16,6 +16,7 @@ livedata = "2.8.2"
 material = "1.12.0"
 hilt = "2.51.1"
 hiltX = "1.2.0"
+retrofit = "2.11.0"
 
 
 [libraries]
@@ -31,6 +32,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-fragment", version.ref = "hiltX" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 
 [plugins]

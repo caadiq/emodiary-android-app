@@ -3,22 +3,33 @@ package com.toy.project.emodiary.view.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.toy.project.emodiary.databinding.ActivitySigninBinding
+import com.toy.project.emodiary.model.dto.SignInDto
+import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignInActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySigninBinding.inflate(layoutInflater) }
 
     private val dataStoreViewModel: DataStoreViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private lateinit var progressDialog: ProgressDialog
 
     private val startForRegisterResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            startActivity(Intent(this, MainActivity::class.java)).also { finish() }
+            val data = result.data
+            val email = data?.getStringExtra("email") ?: ""
+            val password = data?.getStringExtra("password") ?: ""
+            signIn(email, password)
         }
     }
 
@@ -28,19 +39,22 @@ class SignInActivity : AppCompatActivity() {
 
         setupView()
         setupViewModel()
+        setupDialog()
     }
 
     private fun setupView() {
         binding.btnSignIn.setOnClickListener {
-            dataStoreViewModel.setSaveId(binding.chkSaveId.isChecked)
-
-            if (binding.chkSaveId.isChecked) {
-                dataStoreViewModel.setEmail(binding.editEmail.text.toString())
-            } else {
-                dataStoreViewModel.deleteEmail()
+            if (binding.editEmail.text.toString().isBlank()) {
+                Toast.makeText(this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
-            startActivity(Intent(this, MainActivity::class.java)).also { finish() }
+            if (binding.editPassword.text.toString().isBlank()) {
+                Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            signIn(binding.editEmail.text.toString(), binding.editPassword.text.toString())
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -64,5 +78,40 @@ class SignInActivity : AppCompatActivity() {
                 email?.let { binding.editEmail.setText(it) }
             }
         }
+
+        authViewModel.apply {
+            signIn.observe(this@SignInActivity) {
+                lifecycleScope.launch {
+                    dataStoreViewModel.setSaveId(binding.chkSaveId.isChecked)
+
+                    if (binding.chkSaveId.isChecked)
+                        dataStoreViewModel.setEmail(binding.editEmail.text.toString())
+                    else
+                        dataStoreViewModel.deleteEmail()
+
+                    it.token.accessToken?.let { token -> dataStoreViewModel.setAccessToken(token) }
+
+                    progressDialog.dismiss()
+
+                    startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
+                }
+            }
+
+            errorMessage.observe(this@SignInActivity) { event ->
+                progressDialog.dismiss()
+                event.getContentIfNotHandled()?.let { message ->
+                    Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun setupDialog() {
+        progressDialog = ProgressDialog("로그인 중입니다")
+    }
+
+    private fun signIn(email: String, password: String) {
+        authViewModel.signIn(SignInDto(email, password))
+        progressDialog.show(supportFragmentManager, "ProgressDialog")
     }
 }

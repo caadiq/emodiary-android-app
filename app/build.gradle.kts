@@ -1,8 +1,19 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+}
+
+fun getProperty(propertyKey: String): String {
+    val propertiesFile = rootProject.file("local.properties")
+    val properties = Properties().apply {
+        load(FileInputStream(propertiesFile))
+    }
+    return properties.getProperty(propertyKey)
 }
 
 android {
@@ -11,6 +22,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -21,6 +33,8 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String","BASE_URL", getProperty("BASE_URL"))
     }
 
     buildTypes {
@@ -61,4 +75,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
+
+    // 기타
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 }

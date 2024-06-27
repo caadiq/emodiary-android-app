@@ -11,8 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DataStoreViewModel @Inject constructor(private val repository: DataStoreRepository) : ViewModel() {
     val saveId = repository.getSaveId().asLiveData()
-
     val email = repository.getEmail().asLiveData()
+    val accessToken = repository.getAccessToken().asLiveData()
 
     fun setSaveId(saveId: Boolean) {
         viewModelScope.launch {
@@ -29,6 +29,30 @@ class DataStoreViewModel @Inject constructor(private val repository: DataStoreRe
     fun deleteEmail() {
         viewModelScope.launch {
             repository.deleteEmail()
+        }
+    }
+
+    fun setAccessToken(accessToken: String) {
+        viewModelScope.launch {
+            repository.saveAccessToken(accessToken)
+        }
+    }
+
+    fun deleteAccessToken() {
+        viewModelScope.launch {
+            repository.deleteAccessToken()
+        }
+    }
+
+    fun setRefreshToken(refreshToken: String) {
+        viewModelScope.launch {
+            repository.saveRefreshToken(refreshToken)
+        }
+    }
+
+    fun deleteRefreshToken() {
+        viewModelScope.launch {
+            repository.deleteRefreshToken()
         }
     }
 }
