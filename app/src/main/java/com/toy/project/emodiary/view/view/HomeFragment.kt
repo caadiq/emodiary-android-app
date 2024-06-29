@@ -1,5 +1,6 @@
 package com.toy.project.emodiary.view.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +75,12 @@ class HomeFragment : Fragment() {
 
                 }
                 is HomeItem.HomeDiary -> {
-
+                    val diary = item.diaryList[0]
+                    val intent = Intent(requireContext(), DiaryActivity::class.java)
+                    intent.putExtra("date", diary.date)
+                    intent.putExtra("title", diary.title)
+                    intent.putExtra("content", diary.content)
+                    startActivity(intent)
                 }
             }
         }

@@ -13,10 +13,15 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="elevationOverlayEnabled">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="homeAsUpIndicator">@drawable/icon_arrow_left</item>
+        <item name="homeAsUpIndicator">@drawable/icon_arrow_left2</item>
     </style>
 
     <style name="Theme.EmoDiary" parent="Base.Theme.EmoDiary" />
+
+    <style name="Style.Menu" parent="Theme.MaterialComponents.Light">
+        <item name="popupMenuBackground">@color/white</item>
+        <item name="android:textColor">@color/darker_gray</item>
+    </style>
 
     <style name="Style.BottomNavigationView.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@android:color/transparent</item>

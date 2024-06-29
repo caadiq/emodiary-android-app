@@ -38,9 +38,10 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupView()
-        setupViewModel()
-        setupDialog()
+//        setupView()
+//        setupViewModel()
+//        setupDialog()
+        startActivity(Intent(this, MainActivity::class.java)).also { finish() }
     }
 
     private fun setupView() {
@@ -114,7 +115,7 @@ class SignInActivity : AppCompatActivity() {
             errorMessage.observe(this@SignInActivity) { event ->
                 progressDialog.dismiss()
                 event.getContentIfNotHandled()?.let { message ->
-//                    if (!message.lowercase().contains("jwt"))
+                    if (!message.lowercase().contains("jwt"))
                         Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
                 }
             }

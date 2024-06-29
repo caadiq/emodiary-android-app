@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.RowHomeDiaryBinding
 import com.toy.project.emodiary.view.diff.HomeDiaryListDiffUtil
@@ -46,12 +47,14 @@ class HomeDiaryListAdapter : RecyclerView.Adapter<HomeDiaryListAdapter.ViewHolde
 
         fun bind(item: Diary) {
             val localDate = stringToDate(item.date, "yyyy-MM-dd", Locale.KOREA)
+            Glide.with(binding.root).load(R.drawable.icon_quotation_left).into(binding.imgQuotationLeft)
+            Glide.with(binding.root).load(R.drawable.icon_quotation_right).into(binding.imgQuotationRight)
+            Glide.with(binding.root).load(R.drawable.icon_mood_happy).into(binding.imgMood)
+            Glide.with(binding.root).load(R.drawable.icon_weather_sunny).into(binding.imgWeather)
             binding.txtDate.text = localDate.format(DateTimeFormatter.ofPattern("dd", Locale.KOREA))
             binding.txtDay.text = localDate.format(DateTimeFormatter.ofPattern("EEEE", Locale.KOREA))
             binding.txtTitle.text = item.title
             binding.txtContent.text = item.content
-            binding.imgMood.setImageResource(R.drawable.icon_mood_happy)
-            binding.imgWeather.setImageResource(R.drawable.icon_weather_sunny)
         }
     }
 
