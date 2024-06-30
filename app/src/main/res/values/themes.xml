@@ -9,6 +9,7 @@
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
 
         <item name="android:colorBackground">@color/lighter_gray</item>
+        <item name="android:textColorHighlight">@color/light_blue</item>
 
         <item name="android:windowLightStatusBar">true</item>
         <item name="elevationOverlayEnabled">false</item>

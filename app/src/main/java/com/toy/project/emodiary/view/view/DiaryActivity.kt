@@ -1,5 +1,6 @@
 package com.toy.project.emodiary.view.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -39,6 +40,15 @@ class DiaryActivity : AppCompatActivity() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if (menuItem.itemId == R.id.edit) {
+                    val intent = Intent(this@DiaryActivity, DiaryEditActivity::class.java)
+                    intent.putExtra("toolbarTitle", "일기 수정")
+                    intent.putExtra("date", date)
+                    intent.putExtra("title", title)
+                    intent.putExtra("content", content)
+                    startActivity(intent)
+                    return true
+                }
                 return false
             }
         }, this)
