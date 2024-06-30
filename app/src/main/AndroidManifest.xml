@@ -26,7 +26,7 @@
         <activity android:name=".view.view.MainActivity" />
         <activity android:name=".view.view.SignUpActivity" />
         <activity android:name=".view.view.DiaryActivity"  />
-        <activity android:name=".view.view.DiaryEditActivity" />
+        <activity android:name=".view.view.DiaryEditActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
     </application>
 
 </manifest>
