@@ -1,6 +1,7 @@
 package com.toy.project.emodiary.view.view
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.toy.project.emodiary.databinding.ActivityDiaryEditBinding
 import com.toy.project.emodiary.view.utils.DateTimeConverter.stringToDate
@@ -14,17 +15,28 @@ class DiaryEditActivity : AppCompatActivity() {
 
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
+    private lateinit var customDialog: CustomDialog
+
     private val toolbarTitle by lazy { intent.getStringExtra("toolbarTitle") }
     private val date by lazy { intent.getStringExtra("date") }
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            customDialog.show(supportFragmentManager, "CustomDialog")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
         setupToolbar()
         setupView()
+        setupDialog()
     }
 
     override fun onDestroy() {
@@ -36,7 +48,7 @@ class DiaryEditActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener { finish() }
+        binding.toolbar.setNavigationOnClickListener { customDialog.show(supportFragmentManager, "CustmoDialog") }
         binding.txtTitle.text = toolbarTitle
     }
 
@@ -49,6 +61,14 @@ class DiaryEditActivity : AppCompatActivity() {
         keyboardVisibilityUtils = KeyboardVisibilityUtils(window,
             onShowKeyboard = { scrollToCursor() },
             onHideKeyboard = { scrollToCursor() }
+        )
+    }
+
+    private fun setupDialog() {
+        customDialog = CustomDialog(
+            title = null,
+            message = if (toolbarTitle?.contains("작성") == true) "작성을 취소하시겠습니까?" else "수정을 취소하시겠습니까?",
+            onConfirm = { finish() }
         )
     }
 
