@@ -70,16 +70,73 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="60dp"
-                android:layout_marginBottom="32dp"
                 android:fontFamily="@font/nanum_square_neo_regular"
                 android:lineSpacingExtra="20dp"
                 android:textColor="@color/dark_gray"
                 android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitle"
                 tools:text="오늘은 정말 행복한 하루였다. 아침에 일어나서 커피를 마시고, 오후에는 친구들과 즐거운 시간을 보냈다. 저녁에는 맛있는 저녁을 먹고 가족과 함께 시간을 보냈다." />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgMood"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/gray"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/imgWeather"
+                app:layout_constraintTop_toTopOf="@+id/imgWeather"
+                app:layout_constraintBottom_toBottomOf="@+id/imgWeather"
+                app:srcCompat="@drawable/icon_mood_happy" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgWeather"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/gray"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtContent"
+                app:srcCompat="@drawable/icon_weather_sunny" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgWeather" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtWordCloud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/thefaceshop_inklipquid"
+                android:text="그날의 기억"
+                android:textColor="@color/dark_gray"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgWordCloud"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtWordCloud"
+                app:srcCompat="@drawable/wordcloud" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
