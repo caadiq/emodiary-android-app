@@ -1,5 +1,6 @@
 package com.toy.project.emodiary.view.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -10,6 +11,7 @@ import com.toy.project.emodiary.databinding.ActivityMainBinding
 import com.toy.project.emodiary.view.viewmodel.MainFragmentType
 import com.toy.project.emodiary.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -57,6 +59,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile -> mainViewModel.setCurrentFragment(1)
             }
             true
+        }
+
+        binding.fab.setOnClickListener {
+            val today = LocalDate.now()
+            val intent = Intent(this, DiaryEditActivity::class.java)
+            intent.putExtra("toolbarTitle", "일기 작성")
+            intent.putExtra("date", today.toString())
+            startActivity(intent)
         }
     }
 
