@@ -91,6 +91,7 @@ class SignInActivity : AppCompatActivity() {
                         dataStoreViewModel.deleteEmail()
 
                     it.token.accessToken?.let { token -> dataStoreViewModel.setAccessToken(token) }
+                    it.token.refreshToken?.let { token -> dataStoreViewModel.setRefreshToken(token) }
                     UserData.setUserData(it.user.email, it.user.nickname)
 
                     progressDialog.dismiss()
