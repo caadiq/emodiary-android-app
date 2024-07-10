@@ -6,25 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.toy.project.emodiary.databinding.FragmentHomeBinding
 import com.toy.project.emodiary.model.data.UserData
-import com.toy.project.emodiary.view.adapter.Diary
-import com.toy.project.emodiary.view.adapter.HomeAdapter
-import com.toy.project.emodiary.view.adapter.HomeItem
+import com.toy.project.emodiary.view.adapter.DiaryListAdapter
 import com.toy.project.emodiary.view.adapter.Month
+import com.toy.project.emodiary.view.adapter.MonthListAdapter
 import com.toy.project.emodiary.view.adapter.Year
-import java.util.Calendar
+import com.toy.project.emodiary.view.adapter.YearListAdapter
+import com.toy.project.emodiary.view.viewmodel.DiaryViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val homeAdapter = HomeAdapter()
+    private val diaryViewModel: DiaryViewModel by viewModels()
 
-    private val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
-    private val months = (1..12).map { month ->
+    private val yearListAdapter = YearListAdapter()
+    private val monthListAdapter = MonthListAdapter()
+    private val diaryListAdapter = DiaryListAdapter()
+
+    private val currentYear = LocalDate.now().year
+    private val currentMonth = LocalDate.now().monthValue
+    private var year = currentYear
+    private var month = currentMonth
+    private var months = (1..12).map { month ->
         Month(month, month == currentMonth)
     }
+    private var isFirstTime = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -35,6 +47,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupViewModel()
     }
 
     override fun onDestroyView() {
@@ -43,45 +56,82 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView.adapter = homeAdapter
+        binding.recyclerYear.apply {
+            adapter = yearListAdapter
+            itemAnimator = null
+        }
 
-        val items = mutableListOf<HomeItem>()
+        binding.recyclerMonth.apply {
+            adapter = monthListAdapter
+            itemAnimator = null
+        }
 
-        items.add(HomeItem.HomeHeader("오늘 하루는 어떠셨나요?", UserData.nickname ?: ""))
+        binding.recyclerDiary.apply {
+            adapter = diaryListAdapter
+            itemAnimator = null
+        }
 
-        items.add(HomeItem.HomeYear(listOf(
-            Year(2024, 300, true),
-            Year(2023, 200, false),
-            Year(2022, 100, false),
-        )))
+        yearListAdapter.setOnItemClickListener { item, _ ->
+            diaryViewModel.apply {
+                setCurrentYear(item.year)
+                getDiaryList(item.year, this@HomeFragment.month)
+                if (this@HomeFragment.isFirstTime) setIsFirstTime(false)
+            }
+        }
 
-        items.add(HomeItem.HomeMonth(months))
+        monthListAdapter.setOnItemClickListener { item, _ ->
+            diaryViewModel.apply {
+                setCurrentMonth(item.month)
+                getDiaryList(this@HomeFragment.year, item.month)
+                if (this@HomeFragment.isFirstTime) setIsFirstTime(false)
+            }
+        }
 
-        items.add(HomeItem.HomeDiary(listOf(
-            Diary(1, "2024-06-01", "행복한 하루", "오늘은 정말 행복한 하루였다. 아침에 일어나서 커피를 마시고, 오후에는 친구들과 즐거운 시간을 보냈다. 저녁에는 맛있는 저녁을 먹고 가족과 함께 시간을 보냈다."),
-            Diary(2, "2024-06-17", "우울한 하루", "오늘은 정말 우울한 하루였다. 아침에 일어나서 기분이 좋지 않았고, 오후에는 친구들과 시간을 보내는 것조차 힘들었다. 저녁에는 맛있는 저녁을 먹지 못하고 혼자 시간을 보냈다."),
-            Diary(3, "2024-06-26", "평범한 하루", "오늘은 평범한 하루였다. 아침에 일어나서 커피를 마시고, 오후에는 친구들과 시간을 보냈다. 저녁에는 맛있는 저녁을 먹고 가족과 함께 시간을 보냈다."),
-        )))
+        diaryListAdapter.setOnItemClickListener { item, _ ->
+            val intent = Intent(requireContext(), DiaryActivity::class.java)
+            intent.putExtra("date", item.createdDate)
+            intent.putExtra("title", item.title)
+            intent.putExtra("content", item.content)
+            intent.putExtra("wordCloud", item.wordCloudUrl)
+            startActivity(intent)
+        }
+    }
 
-        homeAdapter.setItemList(items)
+    private fun setupViewModel() {
+        diaryViewModel.apply {
+            getDiaryList(this@HomeFragment.currentYear, this@HomeFragment.currentMonth)
 
-        homeAdapter.setOnItemClickListener { item, _ ->
-            when (item) {
-                is HomeItem.HomeHeader -> return@setOnItemClickListener
-                is HomeItem.HomeYear -> {
+            diaryList.observe(viewLifecycleOwner) { list ->
+                list?.let {
+                    binding.txtName.text = "${UserData.nickname} 님"
+                    binding.txtGreeting.text = "오늘 하루는 어떠셨나요?" // 임시 텍스트
 
+                    yearListAdapter.apply {
+                        setItemList(it.years.map { year -> Year(year.year, year.count, year.year == this@HomeFragment.currentYear) })
+                        setItemSelect(it.years.indexOfFirst { year -> year.year == this@HomeFragment.year})
+                    }
+                    monthListAdapter.setItemList(months)
+                    diaryListAdapter.setItemList(it.diary)
+
+                    if (this@HomeFragment.isFirstTime)
+                        binding.recyclerMonth.scrollToPosition(this@HomeFragment.currentMonth - 1)
+                    binding.txtNoDiary.visibility = if (it.diary.isEmpty()) View.VISIBLE else View.GONE
                 }
-                is HomeItem.HomeMonth -> {
+            }
 
+            currentYear.observe(viewLifecycleOwner) { year ->
+                this@HomeFragment.year = year
+            }
+
+            currentMonth.observe(viewLifecycleOwner) { month ->
+                this@HomeFragment.month = month
+                months = (1..12).map { m ->
+                    Month(m, m == month)
                 }
-                is HomeItem.HomeDiary -> {
-                    val diary = item.diaryList[0]
-                    val intent = Intent(requireContext(), DiaryActivity::class.java)
-                    intent.putExtra("date", diary.date)
-                    intent.putExtra("title", diary.title)
-                    intent.putExtra("content", diary.content)
-                    startActivity(intent)
-                }
+            }
+
+            isFirstTime.observe(viewLifecycleOwner) { isFirstTime ->
+                this@HomeFragment.isFirstTime = isFirstTime
             }
         }
     }

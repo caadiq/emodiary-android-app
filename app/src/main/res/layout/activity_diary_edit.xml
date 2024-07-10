@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/nanum_square_neo_extra_bold"
             android:textColor="@color/dark_gray"
-            android:textSize="18sp"
+            android:textSize="18dp"
             tools:text="일기 수정" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,7 +33,7 @@
             android:padding="8dp"
             android:text="완료"
             android:textColor="@color/blue"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -64,7 +64,7 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="16dp"
                 android:textColor="@color/dark_gray"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:drawableStartCompat="@drawable/icon_book"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
                 android:fontFamily="@font/nanum_square_neo_bold"
                 android:text="제목"
                 android:textColor="@color/light_blue"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
@@ -96,7 +96,7 @@
                 android:maxLines="1"
                 android:padding="16dp"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title"
@@ -111,7 +111,7 @@
                 android:fontFamily="@font/nanum_square_neo_bold"
                 android:text="내용"
                 android:textColor="@color/light_blue"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
@@ -130,7 +130,7 @@
                 android:minLines="10"
                 android:padding="16dp"
                 android:textColor="@color/dark_gray"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

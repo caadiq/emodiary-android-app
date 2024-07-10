@@ -21,7 +21,7 @@
             android:fontFamily="@font/nanum_square_neo_extra_bold"
             android:text="일기"
             android:textColor="@color/dark_gray"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -45,7 +45,7 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/nanum_square_neo_bold"
                 android:textColor="@color/gray"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2024년 6월 29일 토요일" />
@@ -58,7 +58,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/nanum_square_neo_bold"
                 android:textColor="@color/dark_gray"
-                android:textSize="26sp"
+                android:textSize="26dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDate"
@@ -73,7 +73,7 @@
                 android:fontFamily="@font/nanum_square_neo_regular"
                 android:lineSpacingExtra="20dp"
                 android:textColor="@color/dark_gray"
-                android:textSize="17sp"
+                android:textSize="17dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitle"
@@ -120,7 +120,7 @@
                 android:fontFamily="@font/thefaceshop_inklipquid"
                 android:text="그날의 기억"
                 android:textColor="@color/dark_gray"
-                android:textSize="30sp"
+                android:textSize="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -135,8 +135,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtWordCloud"
-                app:srcCompat="@drawable/wordcloud" />
+                app:layout_constraintTop_toBottomOf="@+id/txtWordCloud" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

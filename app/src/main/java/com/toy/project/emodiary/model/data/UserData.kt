@@ -8,4 +8,9 @@ object UserData {
         this.email = email
         this.nickname = nickname
     }
+
+    fun clearUserData() {
+        this.email = null
+        this.nickname = null
+    }
 }

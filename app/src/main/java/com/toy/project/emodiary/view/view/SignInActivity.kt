@@ -38,10 +38,9 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-//        setupView()
-//        setupViewModel()
-//        setupDialog()
-        startActivity(Intent(this, MainActivity::class.java)).also { finish() }
+        setupView()
+        setupViewModel()
+        setupDialog()
     }
 
     private fun setupView() {
@@ -79,11 +78,6 @@ class SignInActivity : AppCompatActivity() {
             email.observe(this@SignInActivity) { email ->
                 email?.let { binding.editEmail.setText(it) }
             }
-
-            accessToken.observe(this@SignInActivity) { accessToken ->
-                if (accessToken != null)
-                    getUserInfo()
-            }
         }
 
         authViewModel.apply {
@@ -97,19 +91,13 @@ class SignInActivity : AppCompatActivity() {
                         dataStoreViewModel.deleteEmail()
 
                     it.token.accessToken?.let { token -> dataStoreViewModel.setAccessToken(token) }
+                    it.token.refreshToken?.let { token -> dataStoreViewModel.setRefreshToken(token) }
+                    UserData.setUserData(it.user.email, it.user.nickname)
 
                     progressDialog.dismiss()
 
                     startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
                 }
-            }
-
-            userInfo.observe(this@SignInActivity) {
-                UserData.setUserData(it.email, it.nickname)
-
-                progressDialog.dismiss()
-
-                startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
             }
 
             errorMessage.observe(this@SignInActivity) { event ->
@@ -128,11 +116,6 @@ class SignInActivity : AppCompatActivity() {
 
     private fun signIn(email: String, password: String) {
         authViewModel.signIn(SignInDto(email, password))
-        progressDialog.show(supportFragmentManager, "ProgressDialog")
-    }
-
-    private fun getUserInfo() {
-        authViewModel.getUserInfo()
         progressDialog.show(supportFragmentManager, "ProgressDialog")
     }
 }

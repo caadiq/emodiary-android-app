@@ -15,7 +15,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.view.SignInActivity"
+            android:name=".view.view.SplashActivity"
+            android:theme="@style/Theme.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.view.MainActivity" />
+        <activity android:name=".view.view.SignInActivity" />
         <activity android:name=".view.view.SignUpActivity" />
         <activity android:name=".view.view.DiaryActivity"  />
         <activity android:name=".view.view.DiaryEditActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

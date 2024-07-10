@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.RowHomeYearBinding
-import com.toy.project.emodiary.view.diff.HomeYearListDiffUtil
+import com.toy.project.emodiary.view.diff.YearListDiffUtil
 
 data class Year(
     val year: Int,
@@ -16,7 +16,7 @@ data class Year(
     var selected: Boolean
 )
 
-class HomeYearListAdapter : RecyclerView.Adapter<HomeYearListAdapter.ViewHolder>() {
+class YearListAdapter : RecyclerView.Adapter<YearListAdapter.ViewHolder>() {
     private var itemList = mutableListOf<Year>()
     private var onItemClickListener: ((Year, Int) -> Unit)? = null
 
@@ -71,7 +71,7 @@ class HomeYearListAdapter : RecyclerView.Adapter<HomeYearListAdapter.ViewHolder>
     }
 
     fun setItemList(list: List<Year>) {
-        val diffCallback = HomeYearListDiffUtil(itemList, list)
+        val diffCallback = YearListDiffUtil(itemList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         itemList.clear()
