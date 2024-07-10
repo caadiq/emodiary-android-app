@@ -1,9 +1,9 @@
 package com.toy.project.emodiary.view.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.toy.project.emodiary.view.adapter.HomeItem
+import com.toy.project.emodiary.view.adapter.Year
 
-class HomeDiffUtil(private val oldList: List<HomeItem>, private val newList: List<HomeItem>) : DiffUtil.Callback() {
+class YearListDiffUtil(private val oldList: List<Year>, private val newList: List<Year>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
     }
@@ -13,7 +13,7 @@ class HomeDiffUtil(private val oldList: List<HomeItem>, private val newList: Lis
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition]::class == newList[newItemPosition]::class
+        return oldList[oldItemPosition].year == newList[newItemPosition].year
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

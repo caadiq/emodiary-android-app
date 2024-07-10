@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
+import com.bumptech.glide.Glide
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.ActivityDiaryBinding
 import com.toy.project.emodiary.view.utils.DateTimeConverter.stringToDate
@@ -19,6 +21,7 @@ class DiaryActivity : AppCompatActivity() {
     private val date by lazy { intent.getStringExtra("date") }
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
+    private val wordCloud by lazy { intent.getStringExtra("wordCloud") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,5 +62,9 @@ class DiaryActivity : AppCompatActivity() {
         binding.txtDate.text = localDate?.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일 EEEE", Locale.KOREA))
         binding.txtTitle.text = title
         binding.txtContent.text = content
+
+        binding.divider.visibility = if (wordCloud.isNullOrEmpty()) View.GONE else View.VISIBLE
+        binding.txtWordCloud.visibility = if (wordCloud.isNullOrEmpty()) View.GONE else View.VISIBLE
+        Glide.with(this).load(wordCloud).into(binding.imgWordCloud)
     }
 }

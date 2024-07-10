@@ -7,19 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.RowHomeDiaryBinding
-import com.toy.project.emodiary.view.diff.HomeDiaryListDiffUtil
+import com.toy.project.emodiary.model.dto.Diary
+import com.toy.project.emodiary.view.diff.DiaryListDiffUtil
 import com.toy.project.emodiary.view.utils.DateTimeConverter.stringToDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-data class Diary(
-    val diaryId: Int,
-    val date: String,
-    val title: String,
-    val content: String
-)
-
-class HomeDiaryListAdapter : RecyclerView.Adapter<HomeDiaryListAdapter.ViewHolder>() {
+class DiaryListAdapter : RecyclerView.Adapter<DiaryListAdapter.ViewHolder>() {
     private var itemList = mutableListOf<Diary>()
     private var onItemClickListener: ((Diary, Int) -> Unit)? = null
 
@@ -46,7 +40,7 @@ class HomeDiaryListAdapter : RecyclerView.Adapter<HomeDiaryListAdapter.ViewHolde
         }
 
         fun bind(item: Diary) {
-            val localDate = stringToDate(item.date, "yyyy-MM-dd", Locale.KOREA)
+            val localDate = stringToDate(item.createdDate, "yyyy-MM-dd", Locale.KOREA)
             Glide.with(binding.root).load(R.drawable.icon_quotation_left).into(binding.imgQuotationLeft)
             Glide.with(binding.root).load(R.drawable.icon_quotation_right).into(binding.imgQuotationRight)
             Glide.with(binding.root).load(R.drawable.icon_mood_happy).into(binding.imgMood)
@@ -63,7 +57,7 @@ class HomeDiaryListAdapter : RecyclerView.Adapter<HomeDiaryListAdapter.ViewHolde
     }
 
     fun setItemList(list: List<Diary>) {
-        val diffCallback = HomeDiaryListDiffUtil(itemList, list)
+        val diffCallback = DiaryListDiffUtil(itemList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         itemList.clear()

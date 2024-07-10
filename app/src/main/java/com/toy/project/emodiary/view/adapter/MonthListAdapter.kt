@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.RowHomeMonthBinding
-import com.toy.project.emodiary.view.diff.HomeMonthListDiffUtil
+import com.toy.project.emodiary.view.diff.MonthListDiffUtil
 
 data class Month(
     val month: Int,
     var selected: Boolean
 )
 
-class HomeMonthListAdapter : RecyclerView.Adapter<HomeMonthListAdapter.ViewHolder>() {
+class MonthListAdapter : RecyclerView.Adapter<MonthListAdapter.ViewHolder>() {
     private var itemList = mutableListOf<Month>()
     private var onItemClickListener: ((Month, Int) -> Unit)? = null
 
@@ -64,21 +64,11 @@ class HomeMonthListAdapter : RecyclerView.Adapter<HomeMonthListAdapter.ViewHolde
     }
 
     fun setItemList(list: List<Month>) {
-        val diffCallback = HomeMonthListDiffUtil(itemList, list)
+        val diffCallback = MonthListDiffUtil(itemList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         itemList.clear()
         itemList.addAll(list)
         diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun setItemSelect(position: Int) {
-        val previousItemSelected = itemList.indexOfFirst { it.selected }
-        if (previousItemSelected != -1) {
-            itemList[previousItemSelected].selected = false
-            notifyItemChanged(previousItemSelected)
-        }
-        itemList[position].selected = true
-        notifyItemChanged(position)
     }
 }

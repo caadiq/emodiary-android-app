@@ -3,6 +3,7 @@ package com.toy.project.emodiary.model.di
 import android.content.Context
 import com.toy.project.emodiary.model.data.DataStoreModule
 import com.toy.project.emodiary.model.repository.DataStoreRepository
+import com.toy.project.emodiary.model.repository.DiaryRepository
 import com.toy.project.emodiary.model.service.RetrofitService
 import dagger.Module
 import dagger.Provides
@@ -33,4 +34,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDataStoreRepository(dataStoreModule: DataStoreModule) = DataStoreRepository(dataStoreModule)
+
+    @Provides
+    @Singleton
+    fun provideDiaryRepository(@Named("auth") retrofitWithAuth: Retrofit): DiaryRepository = DiaryRepository(retrofitWithAuth)
 }
