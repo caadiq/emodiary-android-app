@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.livedata)
+    implementation(libs.androidx.splashscreen)
 
     // google
     implementation(libs.material)
@@ -79,5 +80,7 @@ dependencies {
     // 기타
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
     implementation(libs.glide)
+    implementation(libs.jwtdecode)
 }
