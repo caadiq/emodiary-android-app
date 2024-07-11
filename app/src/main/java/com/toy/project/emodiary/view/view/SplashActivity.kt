@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             errorMessage.observe(this@SplashActivity) {
-                startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
+                startActivity(Intent(this@SplashActivity, SignInActivity::class.java)).also { finish() }
             }
         }
     }
