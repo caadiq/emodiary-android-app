@@ -8,14 +8,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.toy.project.emodiary.databinding.ActivitySigninBinding
 import com.toy.project.emodiary.model.data.UserData
 import com.toy.project.emodiary.model.dto.SignInDto
 import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignInActivity : AppCompatActivity() {
@@ -97,22 +95,16 @@ class SignInActivity : AppCompatActivity() {
 
         authViewModel.apply {
             signIn.observe(this@SignInActivity) {
-                lifecycleScope.launch {
-                    dataStoreViewModel.setSaveId(binding.chkSaveId.isChecked)
+                dataStoreViewModel.setSaveId(binding.chkSaveId.isChecked)
 
-                    if (binding.chkSaveId.isChecked)
-                        dataStoreViewModel.setEmail(binding.editEmail.text.toString())
-                    else
-                        dataStoreViewModel.deleteEmail()
+                if (binding.chkSaveId.isChecked)
+                    dataStoreViewModel.setEmail(binding.editEmail.text.toString())
+                else
+                    dataStoreViewModel.deleteEmail()
 
-                    it.token.accessToken?.let { token -> dataStoreViewModel.setAccessToken(token) }
-                    it.token.refreshToken?.let { token -> dataStoreViewModel.setRefreshToken(token) }
-                    UserData.setUserData(it.user.email, it.user.nickname)
-
-                    progressDialog.dismiss()
-
-                    startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
-                }
+                it.token.accessToken?.let { token -> dataStoreViewModel.setAccessToken(token) }
+                it.token.refreshToken?.let { token -> dataStoreViewModel.setRefreshToken(token) }
+                UserData.setUserData(it.user.email, it.user.nickname)
             }
 
             errorMessage.observe(this@SignInActivity) { event ->
@@ -121,6 +113,13 @@ class SignInActivity : AppCompatActivity() {
                     if (!message.lowercase().contains("jwt"))
                         Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+
+        dataStoreViewModel.accessToken.observe(this@SignInActivity) { accessToken ->
+            if (accessToken != null) {
+                progressDialog.dismiss()
+                startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
             }
         }
     }
