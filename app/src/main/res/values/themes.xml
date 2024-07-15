@@ -12,18 +12,13 @@
         <item name="android:textColorHighlight">@color/light_blue</item>
 
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="elevationOverlayEnabled">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="homeAsUpIndicator">@drawable/icon_arrow_left2</item>
     </style>
 
     <style name="Theme.EmoDiary" parent="Base.Theme.EmoDiary" />
-
-    <style name="Theme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="postSplashScreenTheme">@style/Theme.EmoDiary</item>
-    </style>
 
     <style name="Style.Menu" parent="Theme.MaterialComponents.Light">
         <item name="popupMenuBackground">@color/white</item>

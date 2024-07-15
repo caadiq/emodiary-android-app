@@ -1,12 +1,13 @@
 package com.toy.project.emodiary.view.view
 
+//import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.toy.project.emodiary.databinding.ActivitySplashBinding
 import com.toy.project.emodiary.model.data.UserData
 import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
@@ -16,14 +17,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
+    private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+
     private val dataStoreViewModel: DataStoreViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        splashScreen.setKeepOnScreenCondition { true }
+        setContentView(binding.root)
 
         setupViewModel()
     }
