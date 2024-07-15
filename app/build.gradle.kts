@@ -70,6 +70,7 @@ dependencies {
 
     // google
     implementation(libs.material)
+    implementation(libs.location)
 
     // hilt
     implementation(libs.hilt.android)

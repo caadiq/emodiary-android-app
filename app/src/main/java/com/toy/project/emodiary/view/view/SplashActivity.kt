@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.toy.project.emodiary.databinding.ActivitySplashBinding
 import com.toy.project.emodiary.model.data.UserData
+import com.toy.project.emodiary.view.utils.RequestPermissionUtil
 import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,10 +23,21 @@ class SplashActivity : AppCompatActivity() {
     private val dataStoreViewModel: DataStoreViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
 
+    private val requestPermissionUtil by lazy { RequestPermissionUtil(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        if (requestPermissionUtil.isLocationPermissionGranted()) {
+            setupViewModel()
+        } else {
+            requestPermissionUtil.requestLocation()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         setupViewModel()
     }
 
