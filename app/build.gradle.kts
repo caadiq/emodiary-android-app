@@ -67,10 +67,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.livedata)
-    implementation(libs.androidx.splashscreen)
 
     // google
     implementation(libs.material)
+    implementation(libs.location)
 
     // hilt
     implementation(libs.hilt.android)

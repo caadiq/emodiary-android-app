@@ -101,22 +101,24 @@ class HomeFragment : Fragment() {
         diaryViewModel.apply {
             getDiaryList(this@HomeFragment.currentYear, this@HomeFragment.currentMonth)
 
-            diaryList.observe(viewLifecycleOwner) { list ->
-                list?.let {
-                    binding.txtName.text = "${UserData.nickname} 님"
-                    binding.txtGreeting.text = "오늘 하루는 어떠셨나요?" // 임시 텍스트
+            diaryList.observe(viewLifecycleOwner) {
+                binding.txtName.text = "${UserData.nickname} 님"
+                binding.txtGreeting.text = "오늘 하루는 어떠셨나요?" // 임시 텍스트
 
-                    yearListAdapter.apply {
+                yearListAdapter.apply {
+                    if (it.years.isEmpty()) {
+                        setItemList(listOf(Year(this@HomeFragment.currentYear, 0, true)))
+                    } else {
                         setItemList(it.years.map { year -> Year(year.year, year.count, year.year == this@HomeFragment.currentYear) })
                         setItemSelect(it.years.indexOfFirst { year -> year.year == this@HomeFragment.year})
                     }
-                    monthListAdapter.setItemList(months)
-                    diaryListAdapter.setItemList(it.diary)
-
-                    if (this@HomeFragment.isFirstTime)
-                        binding.recyclerMonth.scrollToPosition(this@HomeFragment.currentMonth - 1)
-                    binding.txtNoDiary.visibility = if (it.diary.isEmpty()) View.VISIBLE else View.GONE
                 }
+                monthListAdapter.setItemList(months)
+                diaryListAdapter.setItemList(it.diary)
+
+                if (this@HomeFragment.isFirstTime)
+                    binding.recyclerMonth.scrollToPosition(this@HomeFragment.currentMonth - 1)
+                binding.txtNoDiary.visibility = if (it.diary.isEmpty()) View.VISIBLE else View.GONE
             }
 
             currentYear.observe(viewLifecycleOwner) { year ->
