@@ -50,6 +50,14 @@ class HomeFragment : Fragment() {
         setupViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isFirstTime)
+            diaryViewModel.getDiaryList(currentYear, currentMonth)
+        else
+            diaryViewModel.getDiaryList(year, month)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -99,8 +107,6 @@ class HomeFragment : Fragment() {
 
     private fun setupViewModel() {
         diaryViewModel.apply {
-            getDiaryList(this@HomeFragment.currentYear, this@HomeFragment.currentMonth)
-
             diaryList.observe(viewLifecycleOwner) {
                 binding.progressIndicator.hide()
 
