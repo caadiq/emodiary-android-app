@@ -109,6 +109,7 @@ class HomeFragment : Fragment() {
         diaryViewModel.apply {
             diaryList.observe(viewLifecycleOwner) {
                 binding.progressIndicator.hide()
+                binding.scrollView.visibility = View.VISIBLE
 
                 binding.txtName.text = "${UserData.nickname} 님"
                 binding.txtGreeting.text = "오늘 하루는 어떠셨나요?" // 임시 텍스트
