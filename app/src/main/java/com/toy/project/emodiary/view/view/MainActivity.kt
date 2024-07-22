@@ -2,6 +2,8 @@ package com.toy.project.emodiary.view.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -13,16 +15,21 @@ import com.google.android.gms.location.LocationServices
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.ActivityMainBinding
 import com.toy.project.emodiary.view.utils.GpsTransfer
+import com.toy.project.emodiary.view.utils.RequestPermissionUtil
 import com.toy.project.emodiary.view.viewmodel.MainFragmentType
 import com.toy.project.emodiary.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 import java.time.LocalDate
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel: MainViewModel by viewModels()
+
+    private val requestPermissionUtil by lazy { RequestPermissionUtil(this) }
 
     private var backPressedTime: Long = 0
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -42,9 +49,11 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
-        if (savedInstanceState == null) {
-            setupFragment()
+        if (!requestPermissionUtil.isLocationPermissionGranted()) {
+            requestPermissionUtil.requestLocation()
         }
+
+        if (savedInstanceState == null) setupFragment()
         setupView()
         setupViewModel()
 
@@ -110,14 +119,29 @@ class MainActivity : AppCompatActivity() {
                     gpsTransfer.transfer(0)
                     val x = gpsTransfer.xLat.toInt()
                     val y = gpsTransfer.yLon.toInt()
+                    val address = getAddress(location.latitude, location.longitude)?.get(0)
 
                     Log.d("테스트", "위도: ${location.latitude}")
                     Log.d("테스트", "경도: ${location.longitude}")
                     Log.d("테스트", "x: $x, y: $y")
+                    Log.d("테스트", "주소: ${address?.adminArea}, ${address?.subLocality}, ${address?.thoroughfare}")
                 }
             }
             .addOnFailureListener { fail ->
                 Log.d("테스트", "fail: $fail")
             }
+    }
+
+    private fun getAddress(lat: Double, lng: Double): List<Address>? {
+        lateinit var address: List<Address>
+
+        return try {
+            val geocoder = Geocoder(this, Locale.ENGLISH)
+            address = geocoder.getFromLocation(lat, lng, 1) as List<Address>
+            address
+        } catch (e: IOException) {
+            Toast.makeText(this, "주소를 가져 올 수 없습니다", Toast.LENGTH_SHORT).show()
+            null
+        }
     }
 }

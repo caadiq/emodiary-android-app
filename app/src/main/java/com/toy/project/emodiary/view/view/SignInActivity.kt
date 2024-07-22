@@ -24,6 +24,8 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: ProgressDialog
 
+    private var isNavigated = false
+
     private val startForRegisterResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
@@ -109,6 +111,7 @@ class SignInActivity : AppCompatActivity() {
 
             errorMessage.observe(this@SignInActivity) { event ->
                 progressDialog.dismiss()
+
                 event.getContentIfNotHandled()?.let { message ->
                     if (!message.lowercase().contains("jwt"))
                         Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
@@ -117,8 +120,10 @@ class SignInActivity : AppCompatActivity() {
         }
 
         dataStoreViewModel.accessToken.observe(this@SignInActivity) { accessToken ->
-            if (accessToken != null) {
+            if (accessToken != null && !isNavigated) {
+                isNavigated = true
                 progressDialog.dismiss()
+
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
             }
         }
