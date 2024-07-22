@@ -13,6 +13,7 @@ appcompat = "1.7.0"
 constraintlayout = "2.1.4"
 datastore = "1.1.1"
 livedata = "2.8.3"
+swipeRefreshLayout = "1.1.0"
 material = "1.12.0"
 location = "21.3.0"
 hilt = "2.51.1"
@@ -32,6 +33,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedata" }
+androidx-swipeRefreshLayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swipeRefreshLayout" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }

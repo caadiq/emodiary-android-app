@@ -1,27 +1,18 @@
 package com.toy.project.emodiary.view.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.location.LocationServices
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.ActivityMainBinding
-import com.toy.project.emodiary.view.utils.GpsTransfer
 import com.toy.project.emodiary.view.utils.RequestPermissionUtil
 import com.toy.project.emodiary.view.viewmodel.MainFragmentType
 import com.toy.project.emodiary.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
 import java.time.LocalDate
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -56,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) setupFragment()
         setupView()
         setupViewModel()
-
-        getLocation()
     }
 
     private fun setupFragment() {
@@ -104,44 +93,6 @@ class MainActivity : AppCompatActivity() {
                 MainFragmentType.PROFILE -> R.id.profile
                 else -> R.id.home
             }
-        }
-    }
-
-    // GPS 테스트용 코드
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
-        fusedLocationProviderClient.lastLocation
-            .addOnSuccessListener { success: Location? ->
-                success?.let { location ->
-                    val gpsTransfer = GpsTransfer(location.latitude, location.longitude)
-                    gpsTransfer.transfer(0)
-                    val x = gpsTransfer.xLat.toInt()
-                    val y = gpsTransfer.yLon.toInt()
-                    val address = getAddress(location.latitude, location.longitude)?.get(0)
-
-                    Log.d("테스트", "위도: ${location.latitude}")
-                    Log.d("테스트", "경도: ${location.longitude}")
-                    Log.d("테스트", "x: $x, y: $y")
-                    Log.d("테스트", "주소: ${address?.adminArea}, ${address?.subLocality}, ${address?.thoroughfare}")
-                }
-            }
-            .addOnFailureListener { fail ->
-                Log.d("테스트", "fail: $fail")
-            }
-    }
-
-    private fun getAddress(lat: Double, lng: Double): List<Address>? {
-        lateinit var address: List<Address>
-
-        return try {
-            val geocoder = Geocoder(this, Locale.ENGLISH)
-            address = geocoder.getFromLocation(lat, lng, 1) as List<Address>
-            address
-        } catch (e: IOException) {
-            Toast.makeText(this, "주소를 가져 올 수 없습니다", Toast.LENGTH_SHORT).show()
-            null
         }
     }
 }

@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
         setupRecyclerView()
         setupViewModel()
     }
@@ -61,6 +62,12 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupView() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            diaryViewModel.getDiaryList(year, month)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -111,6 +118,7 @@ class HomeFragment : Fragment() {
         diaryViewModel.apply {
             diaryList.observe(viewLifecycleOwner) {
                 binding.progressIndicator.hide()
+                binding.swipeRefreshLayout.isRefreshing = false
                 binding.scrollView.visibility = View.VISIBLE
 
                 binding.txtName.text = "${UserData.nickname} 님"
