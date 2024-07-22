@@ -100,6 +100,8 @@ class HomeFragment : Fragment() {
             intent.putExtra("date", item.createdDate)
             intent.putExtra("title", item.title)
             intent.putExtra("content", item.content)
+            intent.putExtra("emotion", item.emotionUrl)
+            intent.putExtra("weather", item.weatherUrl)
             intent.putExtra("wordCloud", item.wordCloudUrl)
             startActivity(intent)
         }

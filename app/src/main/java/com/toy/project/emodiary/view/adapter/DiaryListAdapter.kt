@@ -43,8 +43,8 @@ class DiaryListAdapter : RecyclerView.Adapter<DiaryListAdapter.ViewHolder>() {
             val localDate = stringToDate(item.createdDate, "yyyy-MM-dd", Locale.KOREA)
             Glide.with(binding.root).load(R.drawable.icon_quotation_left).into(binding.imgQuotationLeft)
             Glide.with(binding.root).load(R.drawable.icon_quotation_right).into(binding.imgQuotationRight)
-            Glide.with(binding.root).load(R.drawable.icon_mood_happy).into(binding.imgMood)
-            Glide.with(binding.root).load(R.drawable.icon_weather_sunny).into(binding.imgWeather)
+            Glide.with(binding.root).load(item.emotionUrl).into(binding.imgMood)
+            Glide.with(binding.root).load(item.weatherUrl).into(binding.imgWeather)
             binding.txtDate.text = localDate.format(DateTimeFormatter.ofPattern("dd", Locale.KOREA))
             binding.txtDay.text = localDate.format(DateTimeFormatter.ofPattern("EEEE", Locale.KOREA))
             binding.txtTitle.text = item.title
