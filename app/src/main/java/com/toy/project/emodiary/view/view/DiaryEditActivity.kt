@@ -1,10 +1,13 @@
 package com.toy.project.emodiary.view.view
 
+import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.location.LocationServices
 import com.toy.project.emodiary.databinding.ActivityDiaryEditBinding
 import com.toy.project.emodiary.model.dto.DiaryAddDto
 import com.toy.project.emodiary.view.utils.DateTimeConverter.stringToDate
@@ -30,6 +33,9 @@ class DiaryEditActivity : AppCompatActivity() {
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
 
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             customDialog.show(supportFragmentManager, "CustomDialog")
@@ -46,6 +52,7 @@ class DiaryEditActivity : AppCompatActivity() {
         setupView()
         setupDialog()
         setupViewModel()
+        getLocation()
     }
 
     override fun onDestroy() {
@@ -83,7 +90,7 @@ class DiaryEditActivity : AppCompatActivity() {
 
             if (toolbarTitle?.contains("작성") == true) {
                 date?.let {
-                    diaryViewModel.addDiary(DiaryAddDto(it, title, content))
+                    diaryViewModel.addDiary(DiaryAddDto(it, title, content, latitude, longitude))
                     progressDialog.show(supportFragmentManager, "ProgressDialog")
                 }
             } else {
@@ -133,5 +140,19 @@ class DiaryEditActivity : AppCompatActivity() {
                 binding.scrollView.smoothScrollTo(0, y)
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation() {
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        fusedLocationProviderClient.lastLocation
+            .addOnSuccessListener { success: Location? ->
+                success?.let { location ->
+                    latitude = location.latitude
+                    longitude = location.longitude
+                }
+            }
+            .addOnFailureListener {}
     }
 }
