@@ -87,8 +87,7 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/imgWeather"
                 app:layout_constraintTop_toTopOf="@+id/imgWeather"
-                app:layout_constraintBottom_toBottomOf="@+id/imgWeather"
-                app:srcCompat="@drawable/icon_mood_happy" />
+                app:layout_constraintBottom_toBottomOf="@+id/imgWeather" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgWeather"
@@ -98,8 +97,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtContent"
-                app:srcCompat="@drawable/icon_weather_sunny" />
+                app:layout_constraintTop_toBottomOf="@+id/txtContent" />
 
             <View
                 android:id="@+id/divider"
