@@ -1,5 +1,6 @@
 package com.toy.project.emodiary.model.service
 
+import android.util.Log
 import com.auth0.android.jwt.JWT
 import com.toy.project.emodiary.BuildConfig
 import com.toy.project.emodiary.model.api.AuthApi
@@ -20,8 +21,6 @@ import javax.inject.Inject
 
 object RetrofitService {
     private var retrofit: Retrofit? = null
-    private var requestInterceptor: RequestInterceptor? = null
-    private var responseInterceptor: ResponseInterceptor? = null
 
     fun getRetrofit(): Retrofit {
         return retrofit ?: Retrofit.Builder()
@@ -31,17 +30,9 @@ object RetrofitService {
     }
 
     fun getRetrofitWithAuth(dataStoreRepository: DataStoreRepository): Retrofit {
-        if (requestInterceptor == null) {
-            requestInterceptor = RequestInterceptor(dataStoreRepository, getRetrofit().create(AuthApi::class.java))
-        }
-
-        if (responseInterceptor == null) {
-            responseInterceptor = ResponseInterceptor(dataStoreRepository, getRetrofit().create(AuthApi::class.java))
-        }
-
         val interceptorClient = OkHttpClient().newBuilder()
-            .addInterceptor(requestInterceptor!!)
-            .addInterceptor(responseInterceptor!!)
+            .addInterceptor(RequestInterceptor(dataStoreRepository, getRetrofit().create(AuthApi::class.java)))
+            .addInterceptor(ResponseInterceptor(dataStoreRepository, getRetrofit().create(AuthApi::class.java)))
             .build()
 
         return retrofit ?: Retrofit.Builder()

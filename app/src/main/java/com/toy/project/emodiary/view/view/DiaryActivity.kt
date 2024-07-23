@@ -21,6 +21,8 @@ class DiaryActivity : AppCompatActivity() {
     private val date by lazy { intent.getStringExtra("date") }
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
+    private val emotion by lazy { intent.getStringExtra("emotion") }
+    private val weather by lazy { intent.getStringExtra("weather") }
     private val wordCloud by lazy { intent.getStringExtra("wordCloud") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +67,8 @@ class DiaryActivity : AppCompatActivity() {
 
         binding.divider.visibility = if (wordCloud.isNullOrEmpty()) View.GONE else View.VISIBLE
         binding.txtWordCloud.visibility = if (wordCloud.isNullOrEmpty()) View.GONE else View.VISIBLE
+        Glide.with(this).load(emotion).into(binding.imgMood)
+        Glide.with(this).load(weather).into(binding.imgWeather)
         Glide.with(this).load(wordCloud).into(binding.imgWordCloud)
     }
 }

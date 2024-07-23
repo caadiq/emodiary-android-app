@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.livedata)
+    implementation(libs.androidx.swipeRefreshLayout)
 
     // google
     implementation(libs.material)
@@ -83,4 +84,5 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.glide)
     implementation(libs.jwtdecode)
+    implementation(libs.mpAndroidChart)
 }

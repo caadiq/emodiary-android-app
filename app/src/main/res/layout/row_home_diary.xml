@@ -45,27 +45,23 @@
         android:id="@+id/imgMood"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:tint="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgWeather"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDay"
-        app:layout_constraintVertical_bias="0.4"
-        tools:srcCompat="@drawable/icon_mood_happy" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgWeather"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
-        android:tint="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/imgMood"
         app:layout_constraintTop_toBottomOf="@+id/txtDay"
-        app:layout_constraintVertical_bias="0.4"
-        tools:srcCompat="@drawable/icon_weather_sunny" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtTitle"

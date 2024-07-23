@@ -46,13 +46,28 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
         setupRecyclerView()
         setupViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isFirstTime)
+            diaryViewModel.getDiaryList(currentYear, currentMonth)
+        else
+            diaryViewModel.getDiaryList(year, month)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupView() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            diaryViewModel.getDiaryList(year, month)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -92,6 +107,8 @@ class HomeFragment : Fragment() {
             intent.putExtra("date", item.createdDate)
             intent.putExtra("title", item.title)
             intent.putExtra("content", item.content)
+            intent.putExtra("emotion", item.emotionUrl)
+            intent.putExtra("weather", item.weatherUrl)
             intent.putExtra("wordCloud", item.wordCloudUrl)
             startActivity(intent)
         }
@@ -99,9 +116,11 @@ class HomeFragment : Fragment() {
 
     private fun setupViewModel() {
         diaryViewModel.apply {
-            getDiaryList(this@HomeFragment.currentYear, this@HomeFragment.currentMonth)
-
             diaryList.observe(viewLifecycleOwner) {
+                binding.progressIndicator.hide()
+                binding.swipeRefreshLayout.isRefreshing = false
+                binding.scrollView.visibility = View.VISIBLE
+
                 binding.txtName.text = "${UserData.nickname} 님"
                 binding.txtGreeting.text = "오늘 하루는 어떠셨나요?" // 임시 텍스트
 

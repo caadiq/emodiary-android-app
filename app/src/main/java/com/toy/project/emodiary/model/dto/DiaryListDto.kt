@@ -14,7 +14,8 @@ data class Diary(
     val diaryId: Int,
     val title: String,
     val content: String,
-    val weather: String?,
+    val emotionUrl: String?,
+    val weatherUrl: String?,
     val wordCloudUrl: String?,
     val createdDate: String
 )

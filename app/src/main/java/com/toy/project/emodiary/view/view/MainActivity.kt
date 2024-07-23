@@ -1,18 +1,14 @@
 package com.toy.project.emodiary.view.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.location.LocationServices
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.ActivityMainBinding
-import com.toy.project.emodiary.view.utils.GpsTransfer
+import com.toy.project.emodiary.view.utils.RequestPermissionUtil
 import com.toy.project.emodiary.view.viewmodel.MainFragmentType
 import com.toy.project.emodiary.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel: MainViewModel by viewModels()
+
+    private val requestPermissionUtil by lazy { RequestPermissionUtil(this) }
 
     private var backPressedTime: Long = 0
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -42,13 +40,13 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
-        if (savedInstanceState == null) {
-            setupFragment()
+        if (!requestPermissionUtil.isLocationPermissionGranted()) {
+            requestPermissionUtil.requestLocation()
         }
+
+        if (savedInstanceState == null) setupFragment()
         setupView()
         setupViewModel()
-
-        getLocation()
     }
 
     private fun setupFragment() {
@@ -96,28 +94,5 @@ class MainActivity : AppCompatActivity() {
                 else -> R.id.home
             }
         }
-    }
-
-    // GPS 테스트용 코드
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
-        fusedLocationProviderClient.lastLocation
-            .addOnSuccessListener { success: Location? ->
-                success?.let { location ->
-                    val gpsTransfer = GpsTransfer(location.latitude, location.longitude)
-                    gpsTransfer.transfer(0)
-                    val x = gpsTransfer.xLat.toInt()
-                    val y = gpsTransfer.yLon.toInt()
-
-                    Log.d("테스트", "위도: ${location.latitude}")
-                    Log.d("테스트", "경도: ${location.longitude}")
-                    Log.d("테스트", "x: $x, y: $y")
-                }
-            }
-            .addOnFailureListener { fail ->
-                Log.d("테스트", "fail: $fail")
-            }
     }
 }
