@@ -84,4 +84,5 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.glide)
     implementation(libs.jwtdecode)
+    implementation(libs.mpAndroidChart)
 }
