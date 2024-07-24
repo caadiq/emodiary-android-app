@@ -28,6 +28,10 @@ class DiaryRepository @Inject constructor(@Named("auth") retrofitWithAuth: Retro
         handleResponse(diaryApi.editDiary(diaryId, dto), callback)
     }
 
+    fun deleteDiary(diaryId: Int, callback: (ResultUtil<MessageDto>) -> Unit) {
+        handleResponse(diaryApi.deleteDiary(diaryId), callback)
+    }
+
     suspend fun getMyInformation(): MyInfoDto? {
         return diaryApi.getMyInformation().awaitResponse().body()
     }

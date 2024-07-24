@@ -7,6 +7,7 @@ import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.MyInfoDto
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -28,6 +29,9 @@ interface DiaryApi {
         @Path("diaryId") diaryId: Int,
         @Body dto: DiaryEditDto
     ): Call<MessageDto>
+
+    @DELETE("/diary/{diaryId}")
+    fun deleteDiary(@Path("diaryId") diaryId: Int): Call<MessageDto>
 
     @GET("/diary/myinformation")
     fun getMyInformation(): Call<MyInfoDto>

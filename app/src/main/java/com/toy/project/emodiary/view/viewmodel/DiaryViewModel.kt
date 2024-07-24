@@ -39,6 +39,9 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     private val _editDiary = MutableLiveData<MessageDto>()
     val editDiary: LiveData<MessageDto> = _editDiary
 
+    private val _deleteDiary = MutableLiveData<MessageDto>()
+    val deleteDiary: LiveData<MessageDto> = _deleteDiary
+
     private val _myInfo = MutableLiveData<MyInfoDto>()
     val myInfo: LiveData<MyInfoDto> = _myInfo
 
@@ -76,6 +79,12 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     fun editDiary(diaryId: Int, dto: DiaryEditDto) {
         repository.editDiary(diaryId, dto) {
             handleResult(it, _editDiary, _errorMessage)
+        }
+    }
+
+    fun deleteDiary(diaryId: Int) {
+        repository.deleteDiary(diaryId) {
+            handleResult(it, _deleteDiary, _errorMessage)
         }
     }
 

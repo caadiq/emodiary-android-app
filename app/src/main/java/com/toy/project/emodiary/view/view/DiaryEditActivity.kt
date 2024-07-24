@@ -116,7 +116,7 @@ class DiaryEditActivity : AppCompatActivity() {
             onConfirm = { finish() }
         )
 
-        val message = if (toolbarTitle?.contains("작성") == true) "작성 중입니다" else "수정 중입니다"
+        val message = if (toolbarTitle?.contains("작성") == true) "작성 중입니다..." else "수정 중입니다..."
         progressDialog = ProgressDialog(message)
     }
 

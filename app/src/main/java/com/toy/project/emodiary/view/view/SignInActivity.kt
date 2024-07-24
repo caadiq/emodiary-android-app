@@ -130,7 +130,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setupDialog() {
-        progressDialog = ProgressDialog("로그인 중입니다")
+        progressDialog = ProgressDialog("로그인 중입니다...")
     }
 
     private fun signIn(email: String, password: String) {
