@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
                     }
                 }
                 monthListAdapter.setItemList(months)
-                diaryListAdapter.setItemList(it.diary)
+                diaryListAdapter.setItemList(it.diary.sortedBy { diary -> diary.createdDate })
 
                 setIsWritten(it.todayDiary)
 
