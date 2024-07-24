@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.toy.project.emodiary.model.dto.DiaryAddDto
 import com.toy.project.emodiary.model.dto.DiaryListDto
 import com.toy.project.emodiary.model.dto.MessageDto
+import com.toy.project.emodiary.model.dto.MyInfoDto
 import com.toy.project.emodiary.model.repository.DiaryRepository
 import com.toy.project.emodiary.model.utils.Event
 import com.toy.project.emodiary.model.utils.ResultUtil
@@ -25,11 +26,17 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     private val _currentMonth = MutableLiveData<Int>()
     val currentMonth: LiveData<Int> = _currentMonth
 
+    private val _isWritten = MutableLiveData<Boolean>()
+    val isWritten: LiveData<Boolean> = _isWritten
+
     private val _isFirstTime = MutableLiveData<Boolean>()
     val isFirstTime: LiveData<Boolean> = _isFirstTime
 
     private val _addDiary = MutableLiveData<MessageDto>()
     val addDiary: LiveData<MessageDto> = _addDiary
+
+    private val _myInfo = MutableLiveData<MyInfoDto>()
+    val myInfo: LiveData<MyInfoDto> = _myInfo
 
     private val _errorMessage = MutableLiveData<Event<String>>()
     val errorMessage: LiveData<Event<String>> = _errorMessage
@@ -48,6 +55,10 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
         _currentMonth.value = month
     }
 
+    fun setIsWritten(isWritten: Boolean) {
+        _isWritten.value = isWritten
+    }
+
     fun setIsFirstTime(isFirstTime: Boolean) {
         _isFirstTime.value = isFirstTime
     }
@@ -55,6 +66,12 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     fun addDiary(dto: DiaryAddDto) {
         repository.addDiary(dto) {
             handleResult(it, _addDiary, _errorMessage)
+        }
+    }
+
+    fun getMyInformation() {
+        viewModelScope.launch {
+            _myInfo.value = repository.getMyInformation()
         }
     }
 

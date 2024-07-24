@@ -27,6 +27,10 @@ class AuthRepository @Inject constructor(
         handleResponse(authApi.signIn(dto), callback)
     }
 
+    fun signOut(callback: (ResultUtil<MessageDto>) -> Unit) {
+        handleResponse(authApiAuth.signOut(), callback)
+    }
+
     fun getUserInfo(callback: (ResultUtil<UserInfoDto>) -> Unit) {
         handleResponse(authApiAuth.userInfo(), callback)
     }

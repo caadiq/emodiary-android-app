@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,17 +17,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/rectangle_primary_rounded_12dp_ripple"
+                android:fontFamily="@font/nanum_square_neo_bold"
+                android:text="로그아웃"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/oval_light_blue2"
                 android:padding="24dp"
                 android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSignOut"
                 app:srcCompat="@drawable/icon_profile" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -40,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/imgProfile"
                 app:layout_constraintStart_toStartOf="@+id/imgProfile"
                 app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                android:text="닉네임" />
+                tools:text="닉네임" />
 
             <View
                 android:id="@+id/divider"
@@ -64,6 +79,7 @@
                 android:id="@+id/progress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/nanum_square_neo_extra_bold"
                 android:text="작성률"
@@ -83,13 +99,13 @@
                 app:layout_constraintBottom_toBottomOf="@+id/progress"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="@+id/progress"
-                android:text="30%" />
+                tools:text="30%" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressIndicator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:indeterminate="false"
                 android:max="100"
                 android:min="0"
@@ -102,13 +118,14 @@
                 app:trackCornerRadius="8dp"
                 app:trackStopIndicatorSize="0dp"
                 app:trackThickness="16dp"
-                android:progress="30" />
+                tools:progress="30" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/firstWritten"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/nanum_square_neo_extra_bold"
                 android:text="첫 작성일"
                 android:textColor="@color/dark_gray"
@@ -121,20 +138,22 @@
                 android:id="@+id/txtFirstWritten"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/nanum_square_neo_extra_bold"
                 android:textColor="@color/gray"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/firstWritten"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/divider"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="@+id/firstWritten"
-                android:text="2024.07.23 (화)" />
+                tools:text="2024.07.23 (화)" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/emoChange"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/nanum_square_neo_extra_bold"
                 android:text="감정 변화"
                 android:textColor="@color/dark_gray"
@@ -147,13 +166,13 @@
                 android:id="@+id/lineChart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="16dp"
-                android:background="@drawable/rectangle_light_gray_rounded_16dp"
+                android:background="@drawable/rectangle_light_gray_rounded_12dp"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="@+id/divider"
                 app:layout_constraintTop_toBottomOf="@+id/emoChange" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

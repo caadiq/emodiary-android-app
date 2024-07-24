@@ -21,6 +21,9 @@ interface AuthApi {
     @POST("/auth/signin")
     fun signIn(@Body signInDto: SignInDto): Call<SignInSuccessDto>
 
+    @POST("/auth/logout")
+    fun signOut(): Call<MessageDto>
+
     // 로그인 유저 정보
     @GET("/auth/users")
     fun userInfo(): Call<UserInfoDto>

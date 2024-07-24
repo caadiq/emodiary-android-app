@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.ActivityMainBinding
 import com.toy.project.emodiary.view.utils.RequestPermissionUtil
+import com.toy.project.emodiary.view.viewmodel.DiaryViewModel
 import com.toy.project.emodiary.view.viewmodel.MainFragmentType
 import com.toy.project.emodiary.view.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,8 +20,11 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel: MainViewModel by viewModels()
+    private val diaryViewModel: DiaryViewModel by viewModels()
 
     private val requestPermissionUtil by lazy { RequestPermissionUtil(this) }
+
+    private var isWritten: Boolean? = null
 
     private var backPressedTime: Long = 0
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -67,6 +71,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener {
+            if (isWritten == true) {
+                Toast.makeText(this, "오늘 일기를 이미 작성했습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val today = LocalDate.now()
             val intent = Intent(this, DiaryEditActivity::class.java)
             intent.putExtra("toolbarTitle", "일기 작성")
@@ -93,6 +102,10 @@ class MainActivity : AppCompatActivity() {
                 MainFragmentType.PROFILE -> R.id.profile
                 else -> R.id.home
             }
+        }
+
+        diaryViewModel.isWritten.observe(this) {
+            isWritten = it
         }
     }
 }

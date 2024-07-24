@@ -26,6 +26,9 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
     private val _signUp = MutableLiveData<ResultUtil<MessageDto>>()
     val signUp: LiveData<ResultUtil<MessageDto>> = _signUp
 
+    private val _signOut = MutableLiveData<MessageDto>()
+    val signOut: LiveData<MessageDto> = _signOut
+
     private val _userInfo = MutableLiveData<UserInfoDto>()
     val userInfo: LiveData<UserInfoDto> = _userInfo
 
@@ -38,6 +41,12 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
     fun signUp(dto: SignUpDto) {
         repository.signUp(dto) { result ->
             _signUp.postValue(result)
+        }
+    }
+
+    fun signOut() {
+        repository.signOut { result ->
+            handleResult(result, _signOut, _errorMessage)
         }
     }
 
