@@ -4,6 +4,7 @@ import com.toy.project.emodiary.model.api.DiaryApi
 import com.toy.project.emodiary.model.dto.DiaryAddDto
 import com.toy.project.emodiary.model.dto.DiaryListDto
 import com.toy.project.emodiary.model.dto.MessageDto
+import com.toy.project.emodiary.model.dto.MyInfoDto
 import com.toy.project.emodiary.model.utils.NetworkUtil.handleResponse
 import com.toy.project.emodiary.model.utils.ResultUtil
 import retrofit2.Retrofit
@@ -20,5 +21,9 @@ class DiaryRepository @Inject constructor(@Named("auth") retrofitWithAuth: Retro
 
     fun addDiary(dto: DiaryAddDto, callback: (ResultUtil<MessageDto>) -> Unit) {
         handleResponse(diaryApi.addDiary(dto), callback)
+    }
+
+    suspend fun getMyInformation(): MyInfoDto? {
+        return diaryApi.getMyInformation().awaitResponse().body()
     }
 }
