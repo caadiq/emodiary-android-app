@@ -1,6 +1,7 @@
 package com.toy.project.emodiary.model.dto
 
 data class DiaryListDto(
+    val todayDiary : Boolean,
     val years : List<Years>,
     val diary: List<Diary>
 )

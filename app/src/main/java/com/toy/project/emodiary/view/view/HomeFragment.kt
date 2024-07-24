@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.toy.project.emodiary.databinding.FragmentHomeBinding
 import com.toy.project.emodiary.model.data.UserData
 import com.toy.project.emodiary.view.adapter.DiaryListAdapter
@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val diaryViewModel: DiaryViewModel by viewModels()
+    private val diaryViewModel: DiaryViewModel by activityViewModels()
 
     private val yearListAdapter = YearListAdapter()
     private val monthListAdapter = MonthListAdapter()
@@ -134,6 +134,8 @@ class HomeFragment : Fragment() {
                 }
                 monthListAdapter.setItemList(months)
                 diaryListAdapter.setItemList(it.diary)
+
+                setIsWritten(it.todayDiary)
 
                 if (this@HomeFragment.isFirstTime)
                     binding.recyclerMonth.scrollToPosition(this@HomeFragment.currentMonth - 1)

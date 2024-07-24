@@ -25,6 +25,9 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     private val _currentMonth = MutableLiveData<Int>()
     val currentMonth: LiveData<Int> = _currentMonth
 
+    private val _isWritten = MutableLiveData<Boolean>()
+    val isWritten: LiveData<Boolean> = _isWritten
+
     private val _isFirstTime = MutableLiveData<Boolean>()
     val isFirstTime: LiveData<Boolean> = _isFirstTime
 
@@ -46,6 +49,10 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
 
     fun setCurrentMonth(month: Int) {
         _currentMonth.value = month
+    }
+
+    fun setIsWritten(isWritten: Boolean) {
+        _isWritten.value = isWritten
     }
 
     fun setIsFirstTime(isFirstTime: Boolean) {
