@@ -104,6 +104,7 @@ class HomeFragment : Fragment() {
 
         diaryListAdapter.setOnItemClickListener { item, _ ->
             val intent = Intent(requireContext(), DiaryActivity::class.java)
+            intent.putExtra("diaryId", item.diaryId)
             intent.putExtra("date", item.createdDate)
             intent.putExtra("title", item.title)
             intent.putExtra("content", item.content)

@@ -2,6 +2,7 @@ package com.toy.project.emodiary.model.repository
 
 import com.toy.project.emodiary.model.api.DiaryApi
 import com.toy.project.emodiary.model.dto.DiaryAddDto
+import com.toy.project.emodiary.model.dto.DiaryEditDto
 import com.toy.project.emodiary.model.dto.DiaryListDto
 import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.MyInfoDto
@@ -21,6 +22,10 @@ class DiaryRepository @Inject constructor(@Named("auth") retrofitWithAuth: Retro
 
     fun addDiary(dto: DiaryAddDto, callback: (ResultUtil<MessageDto>) -> Unit) {
         handleResponse(diaryApi.addDiary(dto), callback)
+    }
+
+    fun editDiary(diaryId: Int, dto: DiaryEditDto, callback: (ResultUtil<MessageDto>) -> Unit) {
+        handleResponse(diaryApi.editDiary(diaryId, dto), callback)
     }
 
     suspend fun getMyInformation(): MyInfoDto? {

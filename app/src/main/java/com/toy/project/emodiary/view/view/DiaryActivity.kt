@@ -1,11 +1,13 @@
 package com.toy.project.emodiary.view.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import com.bumptech.glide.Glide
@@ -19,11 +21,18 @@ class DiaryActivity : AppCompatActivity() {
     private val binding by lazy { ActivityDiaryBinding.inflate(layoutInflater) }
 
     private val date by lazy { intent.getStringExtra("date") }
+    private val diaryId by lazy { intent.getIntExtra("diaryId", -1) }
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
     private val emotion by lazy { intent.getStringExtra("emotion") }
     private val weather by lazy { intent.getStringExtra("weather") }
     private val wordCloud by lazy { intent.getStringExtra("wordCloud") }
+
+    private val startForRegisterResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +57,11 @@ class DiaryActivity : AppCompatActivity() {
                 if (menuItem.itemId == R.id.edit) {
                     val intent = Intent(this@DiaryActivity, DiaryEditActivity::class.java)
                     intent.putExtra("toolbarTitle", "일기 수정")
+                    intent.putExtra("diaryId", diaryId)
                     intent.putExtra("date", date)
                     intent.putExtra("title", title)
                     intent.putExtra("content", content)
-                    startActivity(intent)
+                    startForRegisterResult.launch(intent)
                     return true
                 }
                 return false

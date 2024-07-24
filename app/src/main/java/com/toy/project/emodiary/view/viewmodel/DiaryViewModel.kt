@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toy.project.emodiary.model.dto.DiaryAddDto
+import com.toy.project.emodiary.model.dto.DiaryEditDto
 import com.toy.project.emodiary.model.dto.DiaryListDto
 import com.toy.project.emodiary.model.dto.MessageDto
 import com.toy.project.emodiary.model.dto.MyInfoDto
@@ -34,6 +35,9 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
 
     private val _addDiary = MutableLiveData<MessageDto>()
     val addDiary: LiveData<MessageDto> = _addDiary
+
+    private val _editDiary = MutableLiveData<MessageDto>()
+    val editDiary: LiveData<MessageDto> = _editDiary
 
     private val _myInfo = MutableLiveData<MyInfoDto>()
     val myInfo: LiveData<MyInfoDto> = _myInfo
@@ -66,6 +70,12 @@ class DiaryViewModel @Inject constructor(private val repository: DiaryRepository
     fun addDiary(dto: DiaryAddDto) {
         repository.addDiary(dto) {
             handleResult(it, _addDiary, _errorMessage)
+        }
+    }
+
+    fun editDiary(diaryId: Int, dto: DiaryEditDto) {
+        repository.editDiary(diaryId, dto) {
+            handleResult(it, _editDiary, _errorMessage)
         }
     }
 
