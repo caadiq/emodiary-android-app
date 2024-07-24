@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.LocationServices
 import com.toy.project.emodiary.databinding.ActivityDiaryEditBinding
 import com.toy.project.emodiary.model.dto.DiaryAddDto
+import com.toy.project.emodiary.model.dto.DiaryEditDto
 import com.toy.project.emodiary.view.utils.DateTimeConverter.stringToDate
 import com.toy.project.emodiary.view.utils.KeyboardVisibilityUtils
 import com.toy.project.emodiary.view.viewmodel.DiaryViewModel
@@ -29,6 +30,7 @@ class DiaryEditActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
 
     private val toolbarTitle by lazy { intent.getStringExtra("toolbarTitle") }
+    private val diaryId by lazy { intent.getIntExtra("diaryId", -1) }
     private val date by lazy { intent.getStringExtra("date") }
     private val title by lazy { intent.getStringExtra("title") }
     private val content by lazy { intent.getStringExtra("content") }
@@ -94,7 +96,10 @@ class DiaryEditActivity : AppCompatActivity() {
                     progressDialog.show(supportFragmentManager, "ProgressDialog")
                 }
             } else {
-                // TODO: 일기 수정
+                if (diaryId != -1) {
+                    diaryViewModel.editDiary(diaryId, DiaryEditDto(title, content))
+                    progressDialog.show(supportFragmentManager, "ProgressDialog")
+                }
             }
         }
 
@@ -111,7 +116,8 @@ class DiaryEditActivity : AppCompatActivity() {
             onConfirm = { finish() }
         )
 
-        progressDialog = ProgressDialog("작성 중입니다")
+        val message = if (toolbarTitle?.contains("작성") == true) "작성 중입니다..." else "수정 중입니다..."
+        progressDialog = ProgressDialog(message)
     }
 
     private fun setupViewModel() {
@@ -119,6 +125,11 @@ class DiaryEditActivity : AppCompatActivity() {
             addDiary.observe(this@DiaryEditActivity) {
                 progressDialog.dismiss()
                 finish()
+            }
+
+            editDiary.observe(this@DiaryEditActivity) {
+                progressDialog.dismiss()
+                setResult(RESULT_OK, intent).also { finish() }
             }
 
             errorMessage.observe(this@DiaryEditActivity) { event ->

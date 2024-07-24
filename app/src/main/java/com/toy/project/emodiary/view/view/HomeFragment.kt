@@ -104,6 +104,7 @@ class HomeFragment : Fragment() {
 
         diaryListAdapter.setOnItemClickListener { item, _ ->
             val intent = Intent(requireContext(), DiaryActivity::class.java)
+            intent.putExtra("diaryId", item.diaryId)
             intent.putExtra("date", item.createdDate)
             intent.putExtra("title", item.title)
             intent.putExtra("content", item.content)
@@ -133,7 +134,7 @@ class HomeFragment : Fragment() {
                     }
                 }
                 monthListAdapter.setItemList(months)
-                diaryListAdapter.setItemList(it.diary)
+                diaryListAdapter.setItemList(it.diary.sortedBy { diary -> diary.createdDate })
 
                 setIsWritten(it.todayDiary)
 
