@@ -1,12 +1,17 @@
 package com.toy.project.emodiary.view.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.toy.project.emodiary.databinding.FragmentProfileBinding
+import com.toy.project.emodiary.model.data.UserData
+import com.toy.project.emodiary.view.viewmodel.AuthViewModel
+import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
 import com.toy.project.emodiary.view.viewmodel.DiaryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -19,6 +24,8 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val diaryViewModel: DiaryViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+    private val dataStoreViewModel: DataStoreViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
@@ -28,12 +35,19 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
         setupViewModel()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupView() {
+        binding.btnSignOut.setOnClickListener {
+            authViewModel.signOut()
+        }
     }
 
     private fun setupViewModel() {
@@ -43,7 +57,7 @@ class ProfileFragment : Fragment() {
             myInfo.observe(viewLifecycleOwner) {
                 binding.txtNickname.text = it.nickname
                 binding.txtFirstWritten.text = if (it.firstDiaryDate == null) {
-                    "작성한 일기가 없습니다."
+                    "첫 일기를 작성해보세요!"
                 } else {
                     val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.KOREA)
                     val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd (E)", Locale.KOREA)
@@ -52,6 +66,15 @@ class ProfileFragment : Fragment() {
                 }
                 binding.txtProgress.text = "${it.percentage}%"
                 binding.progressIndicator.progress = it.percentage.toFloat().toInt()
+            }
+        }
+
+        authViewModel.apply {
+            signOut.observe(viewLifecycleOwner) {
+                dataStoreViewModel.deleteAccessToken()
+                dataStoreViewModel.deleteRefreshToken()
+                UserData.clearUserData()
+                startActivity(Intent(requireContext(), SignInActivity::class.java)).also { activity?.finish() }
             }
         }
     }
