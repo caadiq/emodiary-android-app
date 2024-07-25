@@ -130,7 +130,7 @@ class HomeFragment : Fragment() {
                         setItemList(listOf(Year(this@HomeFragment.currentYear, 0, true)))
                     } else {
                         setItemList(it.years.map { year -> Year(year.year, year.count, year.year == this@HomeFragment.currentYear) })
-                        setItemSelect(it.years.indexOfFirst { year -> year.year == this@HomeFragment.year})
+                        setItemSelect(it.years.indexOfFirst { year -> year.year == this@HomeFragment.year })
                     }
                 }
                 monthListAdapter.setItemList(months)
