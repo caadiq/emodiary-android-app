@@ -1,6 +1,7 @@
 package com.toy.project.emodiary.view.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.toy.project.emodiary.R
 import com.toy.project.emodiary.databinding.FragmentProfileBinding
 import com.toy.project.emodiary.model.data.UserData
+import com.toy.project.emodiary.model.dto.Emotions
 import com.toy.project.emodiary.view.viewmodel.AuthViewModel
 import com.toy.project.emodiary.view.viewmodel.DataStoreViewModel
 import com.toy.project.emodiary.view.viewmodel.DiaryViewModel
@@ -27,6 +35,9 @@ class ProfileFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
     private val dataStoreViewModel: DataStoreViewModel by viewModels()
 
+    // 요일별 감정
+    private val emotions = listOf(3, 4, 2, 5, 3, 1, 4)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -36,6 +47,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
+        setupChart()
         setupViewModel()
     }
 
@@ -48,6 +60,70 @@ class ProfileFragment : Fragment() {
         binding.btnSignOut.setOnClickListener {
             authViewModel.signOut()
         }
+    }
+
+    private fun setupChart() {
+        binding.lineChart.apply {
+            extraTopOffset = 30f
+            extraBottomOffset = 20f
+            extraLeftOffset = 10f
+            extraRightOffset = 20f
+            description.isEnabled = false
+            legend.isEnabled = false // 범례
+            axisRight.isEnabled = false // 오른쪽
+            setPinchZoom(false)
+            setTouchEnabled(false)
+        }
+
+        // 아래쪽
+        binding.lineChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            granularity = 1f
+            spaceMin = 0.3f
+            spaceMax = 0.3f
+            textSize = 16f
+            setDrawGridLines(false)
+            valueFormatter = IndexAxisValueFormatter(emptyArray())
+        }
+
+        // 왼쪽
+        binding.lineChart.axisLeft.apply {
+            axisMinimum = 0f
+            axisMaximum = 5f
+            granularity = 1f
+            spaceMin = 0.3f
+            spaceMax = 0.3f
+            textSize = 16f
+            setDrawGridLines(false)
+            valueFormatter = IndexAxisValueFormatter(arrayOf("", "나쁨", "", "보통", "", "좋음"))
+        }
+    }
+
+    private fun setupChartData(emotions: List<Emotions>) {
+        val entries = emotions.mapIndexed { index, emotion ->
+            Entry(index.toFloat(), emotion.emotion.toFloat())
+        }
+
+        val xAxisValues = emotions.map { it.day }.toTypedArray()
+        binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues)
+
+        // 선
+        val dataSet = LineDataSet(entries, "감정 변화").apply {
+            color = resources.getColor(R.color.light_blue, null)
+            lineWidth = 4f
+            setDrawCircles(true)
+            circleRadius = 6f
+            setCircleColor(resources.getColor(R.color.blue, null))
+            setDrawCircleHole(true)
+            circleHoleRadius = 3f
+            circleHoleColor = Color.WHITE
+            setDrawValues(false)
+            setDrawHighlightIndicators(false)
+        }
+
+        val lineData = LineData(dataSet)
+        binding.lineChart.data = lineData
+        binding.lineChart.invalidate()
     }
 
     private fun setupViewModel() {
@@ -66,6 +142,9 @@ class ProfileFragment : Fragment() {
                 }
                 binding.txtProgress.text = "${it.percentage}%"
                 binding.progressIndicator.progress = it.percentage.toFloat().toInt()
+
+                if (it.emotions.isNotEmpty())
+                    setupChartData(it.emotions)
             }
         }
 
